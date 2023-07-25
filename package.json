@@ -1,0 +1,14 @@
+{
+  "name": "maple-i",
+  "version": "1.0.0",
+  "description": "downloader for maplestory avatar",
+  "bin": {
+    "maplei": "./bin/script.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-html-parser": "^6.1.5",
+    "yargs": "^17.7.2"
+  }
+}
