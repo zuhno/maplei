@@ -14,7 +14,7 @@
     "maplestory"
   ],
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "node-html-parser": "^6.1.5",
     "yargs": "^17.7.2"
   }
