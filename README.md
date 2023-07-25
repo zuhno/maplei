@@ -1,5 +1,7 @@
 # **Maple I**
 
+This package can download the user avatar image of the game MapleStory.
+
 ## Get started
 
 First install maplei:
