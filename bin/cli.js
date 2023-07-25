@@ -16,6 +16,7 @@ const argv = yargs.help().options({
     alias: "path",
     demandOption: false,
     describe: "download path",
+    default: process.cwd(),
     type: "string",
   },
 }).argv;
@@ -76,10 +77,9 @@ const responseToReadable = (response) => {
   return rs;
 };
 
-const downloadAvatar = async (p, user) => {
+const downloadAvatar = async (path, user) => {
   const regex = /\/$/;
 
-  const path = p || process.cwd();
   const slash = regex.test(path) ? "" : "/";
   const uniq = Date.now();
   const filePath = `${path}${slash}${uniq}_${user.nick}.${user.ext}`;
