@@ -1,4 +1,4 @@
-# **Maple I**
+# **MapleI**
 
 This package can download the user avatar image of the game MapleStory.
 
@@ -16,10 +16,10 @@ npm install -g maplei
 maplei <option>
 ```
 
-|  option   |  description  | default | require |
-| :-------: | :-----------: | :-----: | :-----: |
-| -n --nick | user nickname |    -    |   🟢    |
-| -p --path | download path |   cwd   |   🔴    |
+|   option   |  description  | default | require |
+| :--------: | :-----------: | :-----: | :-----: |
+| -n, --nick | user nickname |    -    |   🟢    |
+| -p, --path | download path |   cwd   |   🔴    |
 
 <br />
 
