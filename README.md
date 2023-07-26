@@ -6,7 +6,7 @@ This package can download the user avatar image of the game MapleStory.
 
 First install maplei:
 
-```
+```sh
 npm install -g maplei
 ```
 
