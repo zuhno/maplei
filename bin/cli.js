@@ -3,7 +3,9 @@
 const yargs = require("yargs");
 const parse = require("node-html-parser").parse;
 const { Readable } = require("node:stream");
+const https = require("https");
 const fs = require("fs");
+const fetch = require("node-fetch-polyfill");
 
 const argv = yargs.help().options({
   n: {
@@ -22,9 +24,11 @@ const argv = yargs.help().options({
 }).argv;
 
 const mapleScraper = async (nickname) => {
-  const response = await fetch(
+  const maplestoryRankingUrl = new URL(
     `https://maplestory.nexon.com/N23Ranking/World/Total?c=${nickname}&w=0`
-  );
+  ).toString();
+
+  const response = await fetch(maplestoryRankingUrl);
   const responseTxt = await response.text();
 
   const parsedDocument = parse(responseTxt);
@@ -86,7 +90,8 @@ const downloadAvatar = async (path, user) => {
 
   const file = fs.createWriteStream(filePath);
 
-  const response = await fetch(user.avatar);
+  const parsedAvatarUrl = new URL(user.avatar).toString();
+  const response = await fetch(parsedAvatarUrl);
 
   responseToReadable(response)
     .on("end", () => {
