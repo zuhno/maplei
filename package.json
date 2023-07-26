@@ -1,6 +1,6 @@
 {
   "name": "maplei",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "downloader for maplestory avatar",
   "bin": {
     "maplei": "./bin/cli.js"
