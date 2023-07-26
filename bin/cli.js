@@ -3,7 +3,6 @@
 const yargs = require("yargs");
 const parse = require("node-html-parser").parse;
 const { Readable } = require("node:stream");
-const https = require("https");
 const fs = require("fs");
 const fetch = require("node-fetch-polyfill");
 
