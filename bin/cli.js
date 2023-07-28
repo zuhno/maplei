@@ -1,30 +1,46 @@
 #!/usr/bin/env node
 
-const yargs = require("yargs");
+const yargs = require("yargs/yargs");
+const { hideBin } = require("yargs/helpers");
 const parse = require("node-html-parser").parse;
 const { Readable } = require("node:stream");
 const fs = require("fs");
 const fetch = require("node-fetch-polyfill");
 
-const argv = yargs.help().options({
+// ---------- CLI Config -----------
+
+const argvOptions = {
   n: {
     alias: "nick",
-    demandOption: true,
+    required: true,
     describe: "maplestory nickname",
     type: "string",
   },
   p: {
     alias: "path",
-    demandOption: false,
     describe: "download path",
     default: process.cwd(),
     type: "string",
   },
-}).argv;
+  s: {
+    alias: "size",
+    describe: "image size",
+    default: "96",
+    choices: ["96", "180"],
+    type: "string",
+  },
+};
+
+const argv = yargs(hideBin(process.argv)).help().options(argvOptions).argv;
+
+// -------------------------------
+
+const RANKING_PAGE_URL =
+  "https://maplestory.nexon.com/N23Ranking/World/Total?w=0";
 
 const mapleScraper = async (nickname) => {
   const maplestoryRankingUrl = new URL(
-    `https://maplestory.nexon.com/N23Ranking/World/Total?c=${nickname}&w=0`
+    RANKING_PAGE_URL + `&c=${nickname}`
   ).toString();
 
   const response = await fetch(maplestoryRankingUrl);
@@ -80,17 +96,22 @@ const responseToReadable = (response) => {
   return rs;
 };
 
-const downloadAvatar = async (path, user) => {
+const downloadAvatar = async (path, size, user) => {
   const regex = /\/$/;
 
   const slash = regex.test(path) ? "" : "/";
   const uniq = Date.now();
   const filePath = `${path}${slash}${uniq}_${user.nick}.${user.ext}`;
 
-  const file = fs.createWriteStream(filePath);
+  let avatarUrl = user.avatar;
+  if (size === "96") {
+    avatarUrl = user.avatar.replace("Character/180/", `Character/`);
+  }
 
-  const parsedAvatarUrl = new URL(user.avatar).toString();
+  const parsedAvatarUrl = new URL(avatarUrl).toString();
   const response = await fetch(parsedAvatarUrl);
+
+  const file = fs.createWriteStream(filePath);
 
   responseToReadable(response)
     .on("end", () => {
@@ -100,11 +121,10 @@ const downloadAvatar = async (path, user) => {
 };
 
 const main = async () => {
-  const { n, p } = argv;
+  const { n: nickname, p: downloadPath, s: size } = argv;
 
-  const user = await mapleScraper(n);
-
-  await downloadAvatar(p, user);
+  const user = await mapleScraper(nickname);
+  await downloadAvatar(downloadPath, size, user);
 };
 
 main();
