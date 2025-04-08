@@ -1,22 +1,32 @@
 {
   "name": "maplei",
-  "version": "1.0.6",
+  "version": "1.1.2",
   "description": "downloader for maplestory avatar",
   "bin": {
     "maplei": "./bin/cli.js"
   },
-  "author": "cuttleman <silluat11@gmail.com>",
+  "author": "zuhno <zuhno11@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cuttleman/maplei.git"
+    "url": "https://github.com/zuhno/maplei.git"
   },
   "keywords": [
-    "maplestory"
+    "maplestory",
+    "avatar"
+  ],
+  "files": [
+    "bin"
   ],
   "license": "ISC",
+  "scripts": {
+    "build": "node build.js"
+  },
   "dependencies": {
     "node-fetch-polyfill": "^2.0.6",
-    "node-html-parser": "^6.1.5",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "javascript-obfuscator": "^4.1.1"
   }
 }

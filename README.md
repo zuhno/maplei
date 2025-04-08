@@ -20,11 +20,10 @@ maplei <option>
 | :--------: | :-----------: | :-----: | :-----: | :------: |
 | -n, --nick | user nickname |    -    |    -    |    🟢    |
 | -p, --path | download path |   cwd   |    -    |    🔴    |
-| -s, --size |  image size   |   96    | 96, 180 |    🔴    |
 
 <br />
 
 ```js
 // example
-maplei -n 타락파워전사 -p Users/<username>/Desktop -s 180
+maplei -n 타락파워전사 -p Users/<username>/Desktop
 ```
