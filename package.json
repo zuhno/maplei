@@ -1,6 +1,6 @@
 {
   "name": "maplei",
-  "version": "1.1.3",
+  "version": "1.1.5",
   "description": "downloader for maplestory avatar",
   "bin": {
     "maplei": "./bin/cli.js"
@@ -19,7 +19,7 @@
   ],
   "license": "ISC",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
   },
   "dependencies": {
     "node-fetch-polyfill": "^2.0.6",
