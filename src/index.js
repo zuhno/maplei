@@ -5,7 +5,7 @@ const { hideBin } = require("yargs/helpers");
 const { Readable } = require("node:stream");
 const fs = require("node:fs");
 const fetch = require("node-fetch-polyfill");
-require('dotenv').config();
+require("dotenv").config();
 
 // ---------- CLI Config -----------
 
@@ -30,13 +30,13 @@ const argv = yargs(hideBin(process.argv)).help().options(argvOptions).argv;
 
 const mapleScraper = async (nickname) => {
   const maplestoryScouterUrl = new URL(
-    process.env.MAPLE_URL + `?name=${nickname}`
+    process.env.MAPLE_URL + `/${nickname}`
   ).toString();
 
   const response = await fetch(maplestoryScouterUrl);
   const responseJson = await response.json();
-  
-  const info = responseJson?.userApiData?.info;
+
+  const info = responseJson?.basic;
 
   const userInfos = {
     nick: info?.character_name,
@@ -61,8 +61,8 @@ const getImageType = (contentType) => {
 
   const extension = mimeToExt[contentType];
 
-  return extension || 'png';
-}
+  return extension || "png";
+};
 
 const responseToReadable = (response) => {
   const reader = response.body.getReader();
@@ -77,10 +77,10 @@ const responseToReadable = (response) => {
           }
         },
         (err) => {
-          rs.emit('error', err);
+          rs.emit("error", err);
         }
       );
-    }
+    },
   });
 
   return rs;
@@ -89,20 +89,20 @@ const responseToReadable = (response) => {
 const downloadAvatar = (path, user) => {
   return new Promise(async (resolve, reject) => {
     const regex = /\/$/;
-  
+
     const slash = regex.test(path) ? "" : "/";
     const uniq = Date.now();
-  
+
     const avatarUrl = user.avatar;
     const parsedAvatarUrl = new URL(avatarUrl).toString();
     const response = await fetch(parsedAvatarUrl);
     const contentType = response.headers.get("Content-Type");
     const extension = getImageType(contentType);
-  
+
     const filePath = `${path}${slash}${uniq}_${user.nick}.${extension}`;
-  
+
     const file = fs.createWriteStream(filePath);
-  
+
     responseToReadable(response)
       .on("error", (err) => {
         console.log("Download failed");
@@ -113,7 +113,7 @@ const downloadAvatar = (path, user) => {
         resolve();
       })
       .pipe(file);
-  })
+  });
 };
 
 const main = async () => {
@@ -123,7 +123,7 @@ const main = async () => {
     const user = await mapleScraper(nickname);
     await downloadAvatar(downloadPath, user);
   } catch (error) {
-    console.log('Error:', error);
+    console.log("Error:", error);
     console.log(`Failed to load avatar information for '${nickname}'.`);
   }
 };
